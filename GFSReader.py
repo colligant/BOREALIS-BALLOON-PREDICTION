@@ -1,4 +1,4 @@
-#from netCDF4 import Dataset
+from netCDF4 import Dataset
 import nio
 import numpy as np
 import time
@@ -122,7 +122,7 @@ def findGFSTimeIndex(predictionDateTime, GFSDateTime):
     diff = predictionDateTime - GFSDateTime
     #GFS data is incremented every 3 hours
     return int(np.round((diff.total_seconds()/3600)/3))
-    
+
 
 def findGFSLatLonIndex(gfs, lat, lon):
     if lon < 0:
@@ -187,7 +187,7 @@ def getWindSpeedAndDirection(gfs, timeIndex, index_i, index_j, index_k, web=True
     windDir = RADIANS_TO_DEGREES * np.arctan2(U, V)
     windSpd = np.sqrt(U**2 + V**2)
     return windSpd, windDir
-    
+
 def openGFS(main_directory, file_name):
     try:
         gfs = nio.open_file(main_directory + file_name, 'r')

@@ -61,7 +61,7 @@ T_surface = getTemperature(wrf, x, y, z);
             current_lat, current_lon);
         current_lon = destination(distance/1000, w_dir, ... 
             current_lat, current_lon);
-        
+        print(current_lat, current_lon, current_alt);
         if(ascent)
             current_alt = current_alt + Alt_Increment;
             %rise_rate = getAscentRate(P_surface,T_surface,P,T,

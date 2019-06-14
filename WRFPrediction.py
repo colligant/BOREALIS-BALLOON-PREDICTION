@@ -10,12 +10,14 @@ import numpy as np
 
 #USER INITIAL VARIABLES
 #Should probably put these as variables Predictions needs to run at some point
-radius_parachute = 0.28 #m (0.28 m for GRAW red parachute) 
+radius_parachute = 0.28 #m (0.28 m for GRAW red parachute)
 #Balloon Info: http://kaymontballoons.com/Weather_Forecasting.html
-radius_balloon = 0.59436 #m (200g balloon has radius of 1.95 ft = 0.59436 m)
-mass_balloon = 200 #g
+radius_balloon = 0.662432 #m (200g balloon has radius of 1.95 ft = 0.59436 m)
+#                            (350g balloon has radius of 2.03 ft = 0.618744 m)
+#                            (600g balloon has radius of 2.17 ft = 0.662432 m)  
+mass_balloon = 600 #g
 mass_payload = 140 #g
-radiosonde = 'RadiosondeData/Fort_Missoula_07_29_2015.txt'
+# radiosonde = 'RadiosondeData/W4_L1_1600_053019_MREDI.txt'
 
 def Prediction(wrf_file, main_directory, start_lat, start_lon, start_alt, max_alt):
     #Floating balloon variables for testing
@@ -36,43 +38,45 @@ def Prediction(wrf_file, main_directory, start_lat, start_lon, start_alt, max_al
     current_alt = start_alt
     latLonAlt = [current_lat, current_lon, current_alt, rise_rate]
     points.append(latLonAlt)
-    
+
     #CONSTANTS
     ALT_INCREMENT = 150.0 #m
     #PREDICTION PROCESS
     wrf = WRFReader.openWRF(main_directory, wrf_file)
-    
+    print(wrf_file, wrf)
+
     x,y = WRFReader.findNetCDFLatLonIndex(wrf,current_lat,current_lon)
     z = WRFReader.findNetCDFAltIndex(wrf,x,y,current_alt)
     P_surface = WRFReader.getPressure(wrf, x, y, z)
     T_surface = WRFReader.getTemperature(wrf, x, y, z)
-    
+
     while(not done):
         x,y = WRFReader.findNetCDFLatLonIndex(wrf,current_lat,current_lon)
         z = WRFReader.findNetCDFAltIndex(wrf,x,y,current_alt)
-        
+
         w_spd, w_dir, w_vert = WRFReader.getWindSpeedAndDirection(wrf,x,y,z)
         terrain_height = WRFReader.getTerrainHeight(wrf,x,y)
-        
+
         P = WRFReader.getPressure(wrf, x, y, z)
         T = WRFReader.getTemperature(wrf, x, y, z)
-        
+
         if not floating:
             rise_time = 1/abs(rise_rate) * ALT_INCREMENT
             distance = rise_time * w_spd
         else:
             rise_time = TIME_INCREMENT
             distance = rise_time * w_spd
-            
+
         hour_duration += rise_time
         if hour_duration >= 3600:
             wrf_time = int(wrf_file[22:24]) + 1
             wrf_file =  wrf_file[:22] + str(wrf_time) + wrf_file[24:]
             wrf = WRFReader.openWRF(main_directory, wrf_file)
             hour_duration = 0
-    
+
         current_lat, current_lon = Calculations.destination(distance/1000, w_dir, current_lat, current_lon)
 
+        print(current_lat, current_lon, current_alt)
         if(ascent):
             current_alt += ALT_INCREMENT
 ##            rise_rate = Calculations.getRiseRate(current_alt, ascent)

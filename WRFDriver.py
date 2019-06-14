@@ -2,20 +2,13 @@ import WRFPrediction
 import Calculations
 import numpy as np
 
-start_lat = 46.83982 #decimal degrees (46.8601 for UM Oval)
-start_lon = -114.05418 #decimal degrees (-113.9852 for UM Oval)
-start_alt = 978.0 #m
-max_alt = 24000.0 #m
+start_lat = -30.240776 #decimal degrees (46.8601 for UM Oval)
+start_lon = -71.085250 #decimal degrees (-113.9852 for UM Oval)
+start_alt = 1020.0 #m
+max_alt = 32000.0 #m
 #WRF FILE AND DIRECTORY
-wrf_file = 'wrfout_d02_2015-07-29_19:00:00' #UTC hour required
-main_directory = '/home/jaylene/Documents/WRF/WRFV3/test/em_real/'
-wrf_time = int(wrf_file[22:24]) + 1
-print(wrf_time)
-print("wrf", wrf_file)
-print("wrf 22", wrf_file[22:24])
-print("wrf 22 + 1", int(wrf_file[22:24])+1) 
-print(wrf_file[:22] + str(wrf_time) + wrf_file[24:])
-
+wrf_file = 'wrfout_d02_2017-07-02_17:00:00' # UTC hour required
+main_directory = '/home/wrf_user/WRF/WRFV3/eclipse_wrf/WRFV3/run/July_2_2017/'
 
 #Predictions
 points = WRFPrediction.Prediction(wrf_file, main_directory, start_lat, start_lon, start_alt, max_alt)
@@ -24,4 +17,4 @@ points = WRFPrediction.Prediction(wrf_file, main_directory, start_lat, start_lon
 Calculations.Plotting(points, 400000, 400000)
 
 #Write file
-np.savetxt('WRFtest.txt', points, fmt='%9.8f', delimiter='\t', header='Latitude\tLongitude\tAltitude(m)\tRise Rate(m/s)')
+np.savetxt('WRF_test_July_02_2017_2000_Andacollo.txt', points, fmt='%9.8f', delimiter='\t', header='Latitude\tLongitude\tAltitude(m)\tRise Rate(m/s)')

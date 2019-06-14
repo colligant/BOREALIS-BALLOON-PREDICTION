@@ -14,7 +14,7 @@ time = 0
 
 def openWRF(main_directory, file_name):
     try:
-        wrf = Nio.open_file(main_directory + file_name, format='nc4')
+        wrf = Nio.open_file(main_directory + file_name, format='nc')
         return wrf
     except:
         print('Failure when opening WRF file')
@@ -84,12 +84,12 @@ def getPressure(wrf, index_i, index_j, index_k):
     return pressure
 
 def getTemperature(wrf, index_i, index_j, index_k):
-    # Convert from perturbation potential temperature to temperature
-    # http://mailman.ucar.edu/pipermail/wrf-users/2010/001896.html
-    # Step 1: convert to potential temperature by adding 300
-    # Step 2: convert potential temperatuer to temperature
-    # https://en.wikipedia.org/wiki/Potential_temperature
-    # Note: p_0 = 1000. hPa and R/c_p = 0.286 for dry air
+    #Convert from perturbation potential temperature to temperature
+    #http://mailman.ucar.edu/pipermail/wrf-users/2010/001896.html
+    #Step 1: convert to potential temperature by adding 300
+    #Step 2: convert potential temperatuer to temperature
+    #   https://en.wikipedia.org/wiki/Potential_temperature
+    #   Note: p_0 = 1000. hPa and R/c_p = 0.286 for dry air
     T = wrf.variables["T"][time, index_k, index_j, index_i]
     potential_temp = T + 300 #K
     pressure = getPressure(wrf, index_i, index_j, index_k) #Pa

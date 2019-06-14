@@ -9,7 +9,7 @@ DEGREES_TO_RADIANS = np.pi/180.0
 RADIANS_TO_DEGREES = 180.0/np.pi
 ALT_INCREMENT = 150.0 #m
 PARACHUTE_DRAG = 0.5
-SPHERE_DRAG = 0.48
+SPHERE_DRAG = 0.51
 DRY_AIR_GAS_CONSTANT = 287.058 #J/kgK
 MASS_PER_MOLE_HELIUM = 4.0026 #g/mol
 MASS_PER_MOLE_AIR = 28.96644 #g/mol
@@ -85,26 +85,72 @@ def getRiseRate(alt, ascent):
             [20000,4.5],\
             [21000,4.5],\
             [22000,4.5],\
+            [22900,3.57],\
             [23000,4.5],\
+            [23580,2.41],\
             [24000,4.5],\
-            [25000,4.5],\
-            [26000,4.5],\
-            [27000,4.5],\
-            [28000,4.5]]
-    descent_rates = [[30000,-36.0],\
-            [28000,-31.0],\
-            [26000,-27.0],\
-            [24000,-23.0],\
-            [22000,-20.0],\
-            [20000,-180],\
-            [18000,-15.0],\
-            [16000,-13.0],\
-            [14000,-10.0],\
-            [12000,-9.0],\
-            [10000,-8.0],\
-            [8000,-7.0],\
-            [6000,-6.0],\
-            [4000,-4.50]]
+            [25000,2.2],\
+            [26000,2.0],\
+            [26500,1.87],\
+            [27000,1.73],\
+            [27500,1.52],\
+            [27700,1.37],\
+            [28000,1.25],\
+            [28500,1.18],\
+            [29000,1.05],\
+            [29500,0.91],\
+            [30000,0.85],\
+            [30500,0.80],\
+            [31000,0.75],\
+            [31500,0.70],\
+            [32000,0.65],\
+            [32500,0.60],\
+            [33000,0.55]]
+    descent_rates = [[33000,-50.0],\
+            [32500,-49.0],\
+            [32000,-48.0],\
+            [31500,-47.0],\
+            [31000,-46.0],\
+            [30500,-45.0],\
+            [30000,-44.0],\
+            [29500,-43.5],\
+            [29000,-42.0],\
+            [28500,-41.0],\
+            [28000,-40.0],\
+            [27500,-38.25],\
+            [27000,-36.0],\
+            [26500,-35.25],\
+            [26000,-34.0],\
+            [25500,-32.8],\
+            [25000,-31.0],\
+            [24500,-30.33],\
+            [24000,-30.5],\
+            [23500,-30.75],\
+            [23000,-29.0],\
+            [22500,-28.08],\
+            [22000,-27.0],\
+            [21500,-26.25],\
+            [21000,-25.5],\
+            [20500,-24.25],\
+            [20000,-23.5],\
+            [19000,-22.0],\
+            [18000,-20.0],\
+            [17000,-19.0],\
+            [16000,-17.7],\
+            [15000,-16.4],\
+            [14000,-15.2],\
+            [13000,-14.4],\
+            [12000,-12.9],\
+            [11000,-11.2],\
+            [10000,-11.5],\
+            [9000,-10.5],\
+            [8000,-10.2],\
+            [7000,-9.5],\
+            [6000,-8.6],\
+            [5000,-9.5],\
+            [4000,-8.3],\
+            [3000,-8.8],\
+            [2000,-7.4]]
     if ascent:
         rise_rates = ascent_rates
     else:
@@ -260,18 +306,18 @@ def Plotting(points, sizex, sizey):
     x = points[:,1]
     y = points[:,0]
     z = points[:,2]
-    m = Basemap(width=sizex, height=sizey, projection='lcc', lon_0=points[0][1], lat_0=points[0][0], resolution='i')
-    m.drawcoastlines()
-    m.drawcountries()
-    m.drawstates()
-    m.fillcontinents(color='#cc9966', lake_color='#99ffff')
-    x,y = m(x,y)
-    m.plot(x,y, 'r-')
-    for i in range(len(z)-1):
-        if z[i+1] < z[i]:
-            m.plot(x[i], y[i], 'bo')
-            break
-    plt.text(x[len(x)-1], y[len(y)-1],
-             str(points[len(y)-1,0]) + ', ' + str(points[len(x)-1,1]),
-             horizontalalignment='center', verticalalignment='center')
-    plt.show()
+    #m = Basemap(width=sizex, height=sizey, projection='lcc', lon_0=points[0][1], lat_0=points[0][0], resolution='i')
+    #m.drawcoastlines()
+    #m.drawcountries()
+    #m.drawstates()
+    #m.fillcontinents(color='#cc9966', lake_color='#99ffff')
+    #x,y = m(x,y)
+    #m.plot(x,y, 'r-')
+    #for i in range(len(z)-1):
+        #if z[i+1] < z[i]:
+            #m.plot(x[i], y[i], 'bo')
+            #break
+    #plt.text(x[len(x)-1], y[len(y)-1],
+             #str(points[len(y)-1,0]) + ', ' + str(points[len(x)-1,1]),
+             #horizontalalignment='center', verticalalignment='center')
+    #plt.show()
